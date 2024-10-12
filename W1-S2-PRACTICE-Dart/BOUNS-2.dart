@@ -1,12 +1,12 @@
 void main() {
   const String input = "{a[a(bv)a]}";
-  bool result = balance(input);
+  final bool result = balance(input);
   
   print(result);
 }
 
 bool balance(String str) {
-  var stack = [];
+  final List<String> stack = [];
   
   for (var char in str.split("")) {
     switch (char) {
