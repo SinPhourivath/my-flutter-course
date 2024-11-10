@@ -1,6 +1,6 @@
 class Tree {
-  String type;
-  double height;
+  final String type;
+  final double height;
 
   Tree(this.type, this.height);
 
@@ -11,7 +11,7 @@ class Tree {
 }
 
 class Door {
-  String position;
+  final String position;
 
   Door.centered() : this.position = "centered";
   Door.left() : this.position = "left-side";
@@ -24,8 +24,10 @@ class Door {
 }
 
 class Window {
-  String position;
-  String color;
+  final String position;
+  final String color;
+
+  Window({required this.position, required this.color});
 
   Window.centered(this.color) : this.position = "centered";
   Window.left(this.color) : this.position = "left-side";
@@ -38,13 +40,15 @@ class Window {
 }
 
 class House {
-  String address;
-  int stories;
-  Door door;
-  List<Window> windows;
-  List<Tree> trees = [];
+  final String address;
+  final int stories;
+  final Door door;
+  final List<List<Window>> windows;
+  final List<Tree> trees = [];
 
-  House(this.address, this.stories, this.door) : windows = List.generate(stories, (index) => Window.centered("default color"));
+  // Assume each floor has two windows by default.
+  House(this.address, this.stories, this.door)
+    : windows = List.generate(2, (index) => List.generate(stories, (index) => Window(position: "default position", color: "default color")));
 
   void addTree(Tree newTree) {
     trees.add(newTree);
@@ -58,8 +62,11 @@ class House {
 
 void main() {
   House h1 = House("A01", 2, Door.centered());
-  h1.windows[0] = Window.left('red');
-  h1.windows[1] = Window.right('blue');
+  // windows[floor][window]
+  h1.windows[0][0] = Window.left('red');
+  h1.windows[0][1] = Window.right('blue');
+  h1.windows[1][0] = Window.left('brown');
+  h1.windows[1][1] = Window.right('black');
   h1.addTree(Tree("Apple", 9));
   h1.addTree(Tree("Orage", 10));
 

@@ -1,8 +1,26 @@
 void main() {
-  Distance d1 = Distance.meters(5);
+  Distance d1 = Distance.cms(5);
   Distance d2 = Distance.kms(5);
 
-  print((d1 + d2).kms);
+  print((d1 + d2).meters);
+}
+
+class Distance {
+  final double _meter;
+
+  Distance.cms(double meter) : this._meter = meter / 100;
+  Distance.meters(double meter) : this._meter = meter;
+  Distance.kms(double meter) : this._meter = meter * 1000;
+  
+  Distance._(this._meter);
+
+  Distance operator +(Distance another) {
+    return Distance._(this._meter + another._meter);
+  }
+
+  double get cms => this._meter * 100;
+  double get meters => this._meter;
+  double get kms => this._meter / 1000;
 }
 
 // First solutiuon. Not happy about it so I tried again.
@@ -34,21 +52,3 @@ void main() {
 //   get meters => this._meters.toStringAsFixed(5);
 //   get kms => this._kms.toStringAsFixed(5);
 // }
-
-class Distance {
-  final double _meter;
-
-  Distance.cms(double meter) : this._meter = meter / 100;
-  Distance.meters(double meter) : this._meter = meter;
-  Distance.kms(double meter) : this._meter = meter * 1000;
-  
-  Distance._(this._meter);
-
-  Distance operator +(Distance another) {
-    return Distance._(this._meter + another._meter);
-  }
-
-  get cms => (this._meter * 100).toString() + "cm";
-  get meters => (this._meter).toString() + "m";
-  get kms => (this._meter / 1000).toString() + "km";
-}
